@@ -299,8 +299,11 @@ def t_identifier(p):
         return HyKeyword(obj)
 
     def mangle(p):
-        if p.startswith("*") and p.endswith("*") and p not in ("*", "**"):
+        if p.startswith("+") and p.endswith("+") and p not in ("+", "++"):
             p = p[1:-1].upper()
+
+        if p.startswith("*") and p.endswith("*") and p not in ("*", "**"):
+            p = p[1:-1]
 
         if "-" in p and p != "-":
             p = p.replace("-", "_")

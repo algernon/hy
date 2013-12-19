@@ -423,7 +423,7 @@
         (hyify (. value __name__))
         (catch [] (string value))))))
 
-(def *exports* '[butlast calling-module-name coll? cons cons? cycle
+(def +exports+ '[butlast calling-module-name coll? cons cons? cycle
                  dec distinct disassemble drop drop-last drop-while empty? even?
                  every? first filter filterfalse flatten float? fraction gensym
                  identity inc input instance? integer integer? integer-char?

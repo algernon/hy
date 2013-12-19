@@ -18,8 +18,15 @@ These rules help ensure that Hy code is idiomatic and interfaceable in both
 languages.
 
 
-  * Symbols in earmufs will be translated to the upper-cased version of that
-    string. For example, ``foo`` will become ``FOO``.
+  * Symbols in earmufs will be considered globals.
+
+.. versionchanged:: 0.12
+
+  * Symbols between + are considered constants and will be translated to
+    the uppercased version of that string. For example, ``+foo+`` will
+    become ``FOO``.
+
+.. versionchanged:: 0.12
 
   * UTF-8 entities will be encoded using
     `punycode <http://en.wikipedia.org/wiki/Punycode>`_ and prefixed with

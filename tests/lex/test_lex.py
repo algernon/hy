@@ -353,3 +353,10 @@ def test_cons_list():
     entry = tokenize("(a b . {})")[0]
     assert entry == HyDict([HySymbol("a"), HySymbol("b")])
     assert type(entry) == HyDict
+
+def test_python_conversion():
+    """Make sure some conventions are properly translated"""
+    entry = tokenize("questionable? *foo* +bar+")
+    assert entry[0] == "is_questionable"
+    assert entry[1] == "foo"
+    assert entry[2] == "BAR"
