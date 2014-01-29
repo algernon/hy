@@ -610,6 +610,16 @@
   (assert (= 43 (my-fun 42))))
 
 
+(defn test-defn-- []
+  "NATIVE: test that defn- works, and is not auto-imported"
+  ;(import [tests.native-tests.defn-minus-test [*]])
+  (assert (= 42 (a-public-function)))
+  (try
+   (a-private-function)
+   (assert false)
+   (catch [e NameError] (pass))))
+
+
 (defn test-mangles []
   "NATIVE: test mangles"
   (assert (= 2 ((fn [] (+ 1 1))))))

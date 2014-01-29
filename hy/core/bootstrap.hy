@@ -26,6 +26,9 @@
 ;;; They are automatically required everywhere, even inside hy.core modules.
 
 
+(global __all__)
+
+
 (defmacro macro-error [location reason]
   "error out properly within a macro"
   `(raise (hy.errors.HyMacroExpansionError ~location ~reason)))
@@ -40,11 +43,25 @@
   ret)
 
 
-(defmacro-alias [defn defun] [name lambda-list &rest body]
-  "define a function `name` with signature `lambda-list` and body `body`"
+(defmacro-alias [defn- defun-] [name lambda-list &rest body]
+  "define a function `name` with signature `lambda-list` and body
+  `body`, without exporting it"
   (if (not (= (type name) HySymbol))
     (macro-error name "defn/defun takes a name as first argument"))
   `(setv ~name (fn ~lambda-list ~@body)))
+
+
+(defmacro-alias [defn defun] [name lambda-list &rest body]
+  "define a function `name` with signature `lambda-list` and body
+  `body`"
+  (if (not (= (type name) HySymbol))
+    (macro-error name "defn/defun takes a name as first argument"))
+  (setv sname (HyString name))
+  `(do
+    (if (in "__all__" (globals))
+      (.append __all__ [~sname])
+      (setv __all__ [~sname]))
+    (setv ~name (fn ~lambda-list ~@body))))
 
 
 (defmacro let [variables &rest body]
